@@ -1,0 +1,30 @@
+name: Wishnet Monthly Sync
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Wishnet sync
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_DB: ${{ secrets.MONGODB_DB }}
+          WISHNET_USERNAME: ${{ secrets.WISHNET_USERNAME }}
+          WISHNET_PASSWORD: ${{ secrets.WISHNET_PASSWORD }}
+        run: python -c "from scraper import run_sync; print(run_sync())"
