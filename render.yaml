@@ -8,6 +8,9 @@ services:
     startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+
       - key: MONGODB_URI
         sync: false
 
