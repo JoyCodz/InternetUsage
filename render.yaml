@@ -2,36 +2,12 @@ services:
   - type: web
     name: wishnet-dashboard
     runtime: python
+    plan: free
+
     buildCommand: pip install -r requirements.txt
     startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.13.5"
-
-      - key: MONGODB_URI
-        sync: false
-
-      - key: MONGODB_DB
-        sync: false
-
-      - key: WISHNET_USERNAME
-        sync: false
-
-      - key: WISHNET_PASSWORD
-        sync: false
-
-  - type: cron
-    name: wishnet-monthly-sync
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    schedule: "0 0 1 * *"
-    startCommand: python -c "from scraper import run_sync; run_sync()"
-
-    envVars:
-      - key: PYTHON_VERSION
-        value: "3.13.5"
-
       - key: MONGODB_URI
         sync: false
 
